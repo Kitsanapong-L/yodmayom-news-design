@@ -110,7 +110,7 @@ export function Home() {
 
         <div className="relative z-10 flex min-h-48 flex-col gap-1 px-5 py-6 text-sm text-muted-foreground sm:min-h-64 sm:flex-row sm:items-start sm:justify-between sm:px-10 sm:py-8 lg:px-12">
           <p>© 2026 Yodmayom. All rights reserved.</p>
-          <p className="sm:text-right">Built by Kitsanapong Laporm</p>
+          <p className="sm:text-right">Build by Kitsanapong Laporm</p>
         </div>
       </footer>
     </HomeLoader>
