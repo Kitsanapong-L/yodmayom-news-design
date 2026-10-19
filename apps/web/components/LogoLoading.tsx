@@ -21,12 +21,12 @@ export default function Logoloading() {
                 }}
             >
                 <Image
-                    src="/yodmayom_logo_no_bg.png"
+                    src="/yodmayom.png"
                     alt="Yodmayom"
                     width={120}
                     height={120}
                     priority
-                    className="h-42 w-42 object-contain"
+                    className="h-20 w-20 object-contain"
                 />
             </motion.div>
         </div>
