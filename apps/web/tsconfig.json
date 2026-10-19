@@ -2,6 +2,8 @@
   "extends": "@workspace/typescript-config/nextjs.json",
   "compilerOptions": {
     "paths": {
+      "@/components/ui/*": ["../../packages/ui/src/components/*"],
+      "@/public/*": ["/apps/web/public/*"],
       "@/*": ["./*"],
       "@workspace/ui/*": ["../../packages/ui/src/*"]
     },
