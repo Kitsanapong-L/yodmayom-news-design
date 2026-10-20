@@ -29,7 +29,7 @@ export function Home() {
   return (
     <HomeLoader>
       <section className="relative h-[calc(130dvh-3.5rem)] overflow-hidden">
-        <div className="absolute inset-x-0 top-0 -bottom-12 z-0 [mask-image:linear-gradient(to_bottom,black_0%,black_52%,black_68%,transparent_100%)]">
+        <div className="absolute inset-x-0 top-0 -bottom-12 z-0 [mask-image:linear-gradient(to_bottom,black_0%,black_58%,rgba(0,0,0,0.92)_68%,rgba(0,0,0,0.55)_82%,rgba(0,0,0,0.18)_94%,transparent_100%)]">
           <GradientWaves
             horizonColor="#1e3a8a"
             waveColor="#38bdf8"
@@ -60,7 +60,10 @@ export function Home() {
             paused={false}
           />
         </div>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-40 bg-gradient-to-b from-transparent via-background/70 to-background backdrop-blur-[2px] sm:h-56" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-64 sm:h-80">
+          <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.25)_35%,black_100%)] backdrop-blur-[4px]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-0% via-background/40 via-65% to-background to-100%" />
+        </div>
 
         <div className="relative z-10 flex min-h-[calc(100dvh-3.5rem)] items-center justify-center px-6">
           <Card className="w-full max-w-sm bg-card/85 shadow-2xl backdrop-blur-md">
