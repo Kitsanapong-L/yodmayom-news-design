@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { MobileNavigation } from "@/components/mobile-navigation"
 import { ModeToggle } from "@/components/mode-toggle"
+import { Separator } from "@/components/ui/separator"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -20,7 +21,6 @@ export const metadata: Metadata = {
   title: "Yodmayom",
   description: "Yodmayom",
 }
-
 
 const ibmPlexSansThai = IBM_Plex_Sans_Thai({
   weight: ["400", "500", "600", "700"],
@@ -52,13 +52,13 @@ export default function RootLayout({
       )}
     >
       <body>
-        <ThemeProvider 
+        <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <header className="sticky top-0 z-50 h-14 border-b bg-background/80 backdrop-blur-md">
+          <header className="sticky top-0 z-50 h-14 bg-background/80 backdrop-blur-md">
             <div className="mx-auto flex h-full w-full max-w-7xl items-center gap-2 px-4 sm:px-6 lg:px-8">
               <Link
                 href="/"
@@ -99,6 +99,7 @@ export default function RootLayout({
                 </div>
               </div>
             </div>
+            <Separator />
           </header>
           <main>{children}</main>
         </ThemeProvider>
