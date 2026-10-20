@@ -24,6 +24,7 @@ export function MobileNavigation() {
       <DropdownMenuContent align="end" className="w-40">
         <DropdownMenuItem render={<a href="/" />}>Home</DropdownMenuItem>
         <DropdownMenuItem render={<a href="/about" />}>About</DropdownMenuItem>
+        <DropdownMenuItem render={<a href="/member" />}>member</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
