@@ -62,15 +62,15 @@ export default function RootLayout({
             <div className="mx-auto flex h-full w-full max-w-7xl items-center gap-2 px-4 sm:px-6 lg:px-8">
               <Link
                 href="/"
-                className="-ml-6 shrink-0 sm:ml-0"
+                className="-ml-2 flex h-10 shrink-0 items-center sm:ml-0"
                 aria-label="Yodmayom home"
               >
                 <Image
                   src="/yodmayom_logo_no_bg.png"
                   alt="Yodmayom"
-                  width={160}
-                  height={80}
-                  className="h-20 w-auto object-contain"
+                  width={100}
+                  height={40}
+                  className="h-9 w-auto object-contain"
                 />
               </Link>
               <NavigationMenu className="hidden md:flex">
@@ -84,6 +84,10 @@ export default function RootLayout({
                       className={navigationMenuTriggerStyle()}
                       render={<a href="/about">About</a>}
                     />
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                      render={<a href="/member">member</a>}
+                    />
                   </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
@@ -96,9 +100,7 @@ export default function RootLayout({
               </div>
             </div>
           </header>
-          <main>
-            {children}
-          </main>
+          <main>{children}</main>
         </ThemeProvider>
       </body>
     </html>

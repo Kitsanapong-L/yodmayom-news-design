@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import AnimatedContent from "./AnimatedContent";
 import Logoloading from "./LogoLoading";
 
 export default function HomeLoader({
@@ -22,5 +23,16 @@ export default function HomeLoader({
         return <Logoloading />;
     }
 
-    return <>{children}</>;
+    return (
+        <AnimatedContent
+            trigger="mount"
+            distance={24}
+            duration={0.5}
+            ease="power3.out"
+            initialOpacity={0}
+            animateOpacity
+        >
+            {children}
+        </AnimatedContent>
+    );
 }
