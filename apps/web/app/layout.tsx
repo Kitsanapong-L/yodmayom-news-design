@@ -73,6 +73,10 @@ export default function RootLayout({
                   className="h-9 w-auto object-contain"
                 />
               </Link>
+              <Separator
+                orientation="vertical"
+                className="mx-2 hidden !h-5 !self-center md:block"
+              />
               <NavigationMenu className="hidden md:flex">
                 <NavigationMenuList>
                   <NavigationMenuItem>
