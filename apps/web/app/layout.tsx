@@ -9,6 +9,7 @@ import {
 import { MobileNavigation } from "@/components/mobile-navigation"
 import { ModeToggle } from "@/components/mode-toggle"
 import { Separator } from "@/components/ui/separator"
+import { HouseIcon, InfoIcon, UsersIcon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -18,8 +19,34 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@workspace/ui/lib/utils"
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://yodmayom.cloud"),
   title: "Yodmayom",
-  description: "Yodmayom",
+  description: "ติดตามข่าวสาร ประกาศ และกิจกรรมจาก Yodmayom",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Yodmayom",
+    description: "ติดตามข่าวสาร ประกาศ และกิจกรรมจาก Yodmayom",
+    url: "/",
+    siteName: "Yodmayom",
+    locale: "th_TH",
+    type: "website",
+    images: [
+      {
+        url: "/banner/banner-yodmayom.png",
+        width: 1734,
+        height: 907,
+        alt: "Yodmayom",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Yodmayom",
+    description: "ติดตามข่าวสาร ประกาศ และกิจกรรมจาก Yodmayom",
+    images: ["/banner/banner-yodmayom.png"],
+  },
 }
 
 const ibmPlexSansThai = IBM_Plex_Sans_Thai({
@@ -66,11 +93,21 @@ export default function RootLayout({
                 aria-label="Yodmayom home"
               >
                 <Image
-                  src="/yodmayom_logo_no_bg.png"
+                  src="/nav-logo/white/yodmayom_light.png"
                   alt="Yodmayom"
-                  width={100}
-                  height={40}
-                  className="h-9 w-auto object-contain"
+                  width={180}
+                  height={38}
+                  priority
+                  className="h-7 w-auto object-contain dark:hidden"
+                />
+                <Image
+                  src="/nav-logo/black/yodmayom_dark.png"
+                  alt=""
+                  width={180}
+                  height={38}
+                  priority
+                  aria-hidden="true"
+                  className="hidden h-7 w-auto object-contain dark:block"
                 />
               </Link>
               <Separator
@@ -82,16 +119,25 @@ export default function RootLayout({
                   <NavigationMenuItem>
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
-                      render={<a href="/">Home</a>}
-                    />
+                      render={<a href="/" />}
+                    >
+                      <HouseIcon aria-hidden="true" />
+                      <span>Home</span>
+                    </NavigationMenuLink>
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
-                      render={<a href="/about">About</a>}
-                    />
+                      render={<a href="/about" />}
+                    >
+                      <InfoIcon aria-hidden="true" />
+                      <span>About</span>
+                    </NavigationMenuLink>
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
-                      render={<a href="/member">member</a>}
-                    />
+                      render={<a href="/member" />}
+                    >
+                      <UsersIcon aria-hidden="true" />
+                      <span>Member</span>
+                    </NavigationMenuLink>
                   </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>

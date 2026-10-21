@@ -1,6 +1,6 @@
 "use client"
 
-import { MenuIcon } from "lucide-react"
+import { HouseIcon, InfoIcon, MenuIcon, UsersIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -22,9 +22,18 @@ export function MobileNavigation() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-40">
-        <DropdownMenuItem render={<a href="/" />}>Home</DropdownMenuItem>
-        <DropdownMenuItem render={<a href="/about" />}>About</DropdownMenuItem>
-        <DropdownMenuItem render={<a href="/member" />}>member</DropdownMenuItem>
+        <DropdownMenuItem render={<a href="/" />}>
+          <HouseIcon aria-hidden="true" />
+          <span>Home</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem render={<a href="/about" />}>
+          <InfoIcon aria-hidden="true" />
+          <span>About</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem render={<a href="/member" />}>
+          <UsersIcon aria-hidden="true" />
+          <span>Member</span>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
