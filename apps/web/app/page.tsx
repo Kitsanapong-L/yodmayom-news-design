@@ -1,14 +1,15 @@
 "use client"
 
-import { IconFolderCode } from "@tabler/icons-react"
-import { ArrowUpRightIcon, RefreshCcwIcon } from "lucide-react"
-import React from "react"
+import { useState } from "react"
+import { motion } from "motion/react"
+
 import DotGrid from "@/components/DotGrid"
 import GradientWaves from "@/components/GradientWaves"
 import HomeLoader from "@/components/HomeLoading"
 import AnimatedContent from "@/components/AnimatedContent"
+import BlurText from "@/components/BlurText"
+import TextType from "@/components/TextType"
 
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -16,16 +17,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Empty,
-  EmptyContent,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-  EmptyDescription,
-} from "@/components/ui/empty"
 
 export function Home() {
+  const [showToThe, setShowToThe] = useState(false)
+  const [showYodmayomWebsite, setShowYodmayomWebsite] = useState(false)
+
   return (
     <HomeLoader>
       <section className="relative h-[calc(130dvh-3.5rem)] overflow-hidden">
@@ -66,38 +62,107 @@ export function Home() {
         </div>
 
         <div className="relative z-10 flex min-h-[calc(100dvh-3.5rem)] items-center justify-center px-6">
-          <Card className="w-full max-w-sm bg-card/85 shadow-2xl backdrop-blur-md">
-            <Empty className="border-0 bg-transparent">
-              <EmptyHeader>
-                <EmptyMedia variant="icon">
-                  <IconFolderCode />
-                </EmptyMedia>
-                <EmptyTitle>กำลังอยู่ในช่วงพัฒนา</EmptyTitle>
-                <EmptyDescription>
-                  เรากำลังปรับปรุงและพัฒนา Website
-                  นี้เพื่อประสิทธิภาพที่ดีสุดให้กับท่าน
-                </EmptyDescription>
-              </EmptyHeader>
-              <EmptyContent className="flex-row justify-center gap-2">
-                <Button
-                  nativeButton={false}
-                  render={
-                    <a href="https://www.instagram.com/_ksnp.o/">
-                      ติดต่อผู้ดูแล
-                      <ArrowUpRightIcon />
-                    </a>
-                  }
+          <motion.div
+            layout="position"
+            role="heading"
+            aria-level={1}
+            aria-label="Welcome to yodmayom. Use ideas to become innovations."
+            className="flex w-full max-w-6xl flex-col items-start justify-center gap-[clamp(0.375rem,1vw,0.75rem)] font-semibold tracking-[-0.04em] text-slate-100 drop-shadow-[0_4px_24px_rgba(0,0,0,0.55)] dark:text-white"
+            transition={{
+              layout: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+            }}
+          >
+            <motion.div
+              layout="position"
+              className="flex flex-col items-start justify-start gap-1 sm:flex-row sm:items-baseline sm:gap-[clamp(0.5rem,1.5vw,1.25rem)] sm:whitespace-nowrap"
+              transition={{
+                layout: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+              }}
+            >
+              <BlurText
+                text="Welcome to"
+                effect="blur"
+                animateBy="words"
+                direction="top"
+                staggerFrom="center"
+                trigger="view"
+                delay={200}
+                stepDuration={0.35}
+                blur={10}
+                distance={50}
+                onAnimationComplete={() => setShowToThe(true)}
+                loop={false}
+                loopDelay={2}
+                focusOnHover={false}
+                className="justify-start text-[clamp(1.75rem,9vw,2.5rem)] leading-none sm:text-[clamp(2rem,6vw,4.75rem)]"
+              />
+
+              {showToThe && (
+                <BlurText
+                  text="yodmayom"
+                  effect="blur"
+                  animateBy="words"
+                  direction="left"
+                  staggerFrom="center"
+                  trigger="load"
+                  delay={200}
+                  stepDuration={0.35}
+                  blur={10}
+                  distance={50}
+                  onAnimationComplete={() => setShowYodmayomWebsite(true)}
+                  loop={false}
+                  loopDelay={2}
+                  focusOnHover={false}
+                  className="justify-start text-[clamp(1.75rem,9vw,2.5rem)] leading-none sm:text-[clamp(2rem,6vw,4.75rem)]"
                 />
-                <Button
-                  variant="outline"
-                  onClick={() => window.location.reload()}
-                >
-                  <RefreshCcwIcon data-icon="inline-start" />
-                  รีโหลด
-                </Button>
-              </EmptyContent>
-            </Empty>
-          </Card>
+              )}
+            </motion.div>
+
+            {showYodmayomWebsite && (
+              <>
+                <BlurText
+                  text="Use ideas to become innovations"
+                  effect="blur"
+                  animateBy="words"
+                  direction="bottom"
+                  staggerFrom="center"
+                  trigger="load"
+                  delay={0}
+                  stepDuration={0.35}
+                  blur={10}
+                  distance={50}
+                  loop={false}
+                  loopDelay={2}
+                  focusOnHover={false}
+                  className="justify-start text-left text-[clamp(1.25rem,6vw,1.75rem)] leading-tight sm:text-[clamp(1.5rem,4vw,3.25rem)]"
+                />
+
+                <TextType
+                  text={[
+                    "We Build Websites.",
+                    "We Develop Applications.",
+                    "We Create Intelligent Solutions.",
+                    "We Innovate with AI."
+                  ]}
+                  typingSpeed={75}
+                  pauseDuration={1500}
+                  deletingSpeed={50}
+                  deleteMode="backspace"
+                  typeEffect="none"
+                  mistakes={0}
+                  cursorStyle="underscore"
+                  cursorGlide
+                  showCursor
+                  cursorColor="currentColor"
+                  prefixColor="currentColor"
+                  cursorBlinkDuration={0.5}
+                  cursorCharacter="_"
+                  prefix=""
+                  className="text-sm font-normal tracking-normal sm:text-base"
+                />
+              </>
+            )}
+          </motion.div>
         </div>
       </section>
 
@@ -106,7 +171,9 @@ export function Home() {
         className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8"
       >
         <div className="mb-8 max-w-2xl">
-          <p className="text-sm font-medium text-primary">Content layout(test)</p>
+          <p className="text-sm font-medium text-primary">
+            Content layout(test)
+          </p>
           <h2
             id="content-layout-title"
             className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl"

@@ -7,7 +7,10 @@ export default function Logoloading() {
   const reduceMotion = useReducedMotion()
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white dark:bg-[#05070b]">
+    <div
+      data-site-loading
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-white dark:bg-[#05070b]"
+    >
       <motion.div
         animate={reduceMotion ? { opacity: 1 } : { opacity: [0.4, 1, 0.4] }}
         transition={{
