@@ -106,21 +106,21 @@ export function Home() {
         className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8"
       >
         <div className="mb-8 max-w-2xl">
-          <p className="text-sm font-medium text-primary">Content layout</p>
+          <p className="text-sm font-medium text-primary">Content layout(test)</p>
           <h2
             id="content-layout-title"
             className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl"
           >
-            Explore Yodmayom
+            Yodmayom
           </h2>
           <p className="mt-2 text-sm text-muted-foreground sm:text-base">
-            Card outlines for the main content of the website.
+            What do we work on?
           </p>
         </div>
 
         <div className="grid auto-rows-[minmax(12rem,auto)] grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12">
           <AnimatedContent
-            className="lg:col-span-7 lg:row-span-2"
+            className="md:col-span-2 lg:col-span-7 lg:row-span-2"
             distance={48}
             duration={0.7}
             initialOpacity={0}
@@ -131,7 +131,7 @@ export function Home() {
             <Card className="h-full overflow-hidden">
               <CardHeader>
                 <CardDescription>Featured content</CardDescription>
-                <CardTitle>Main story or important highlight</CardTitle>
+                <CardTitle>Main content highlights (test)</CardTitle>
               </CardHeader>
               <CardContent className="flex h-full min-h-72 flex-col gap-4">
                 <div className="flex-1 rounded-xl border border-dashed bg-muted/30" />
@@ -156,7 +156,7 @@ export function Home() {
             <Card className="h-full">
               <CardHeader>
                 <CardDescription>Latest updates</CardDescription>
-                <CardTitle>Recent news</CardTitle>
+                <CardTitle>Recent news (test)</CardTitle>
               </CardHeader>
               <CardContent className="grid grid-cols-[5rem_1fr] gap-4">
                 <div className="aspect-square rounded-xl border border-dashed bg-muted/30" />
@@ -182,7 +182,7 @@ export function Home() {
             <Card className="h-full">
               <CardHeader>
                 <CardDescription>Announcement</CardDescription>
-                <CardTitle>Important notice</CardTitle>
+                <CardTitle>Important notice (test)</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="h-3 w-full rounded-full bg-muted" />
@@ -205,7 +205,7 @@ export function Home() {
             <Card className="h-full">
               <CardHeader>
                 <CardDescription>Upcoming</CardDescription>
-                <CardTitle>Events and activities</CardTitle>
+                <CardTitle>coming soon</CardTitle>
               </CardHeader>
               <CardContent className="grid gap-3 sm:grid-cols-3">
                 {[1, 2, 3].map((item) => (
@@ -230,8 +230,8 @@ export function Home() {
           >
             <Card className="h-full">
               <CardHeader>
-                <CardDescription>Navigation</CardDescription>
-                <CardTitle>Quick links</CardTitle>
+                <CardDescription>Do you want to see more?</CardDescription>
+                <CardTitle>You can see more at here (test)</CardTitle>
               </CardHeader>
               <CardContent className="grid grid-cols-2 gap-3">
                 {[1, 2, 3, 4].map((item) => (
