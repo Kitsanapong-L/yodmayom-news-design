@@ -61,6 +61,9 @@ const INTRO_SECONDS = 2.6;
 const CAMERA_HEIGHT = 30;
 const QUALITY: Record<string, number> = { low: 56, medium: 84, high: 120 };
 const CONSTRAINED_DEVICE_QUERY = '(max-width: 767px), (pointer: coarse)';
+const CONSTRAINED_DPR = 0.75;
+const CONSTRAINED_STEPS = 36;
+const CONSTRAINED_FRAME_INTERVAL = 1000 / 30;
 
 const VERTEX = `#version 300 es
 in vec2 aPosition;
@@ -470,7 +473,10 @@ export default function GradientWaves({
 
     const fit = () => {
       const s = settingsRef.current;
-      const ratio = Math.min(window.devicePixelRatio || 1, state.constrained ? 1 : s.dpr);
+      const ratio = Math.min(
+        window.devicePixelRatio || 1,
+        state.constrained ? Math.min(s.dpr, CONSTRAINED_DPR) : s.dpr
+      );
       const width = Math.max(1, Math.round(state.cssWidth * ratio));
       const height = Math.max(1, Math.round(state.cssHeight * ratio));
       if (width === state.width && height === state.height) return;
@@ -511,7 +517,7 @@ export default function GradientWaves({
       gl.uniform1f(u.uFogDepth, s.fogDepth);
       gl.uniform1f(u.uBrightness, s.brightness);
       gl.uniform1f(u.uOpacity, s.opacity);
-      gl.uniform1f(u.uGrain, s.grain);
+      gl.uniform1f(u.uGrain, state.constrained ? 0 : s.grain);
       gl.uniform3fv(u.uHorizon, s.horizon);
       gl.uniform3fv(u.uWave, s.wave);
       gl.uniform3fv(u.uCrest, s.crest);
@@ -530,7 +536,7 @@ export default function GradientWaves({
       );
       gl.uniform1f(u.uRelief, s.relief);
       gl.uniform1f(u.uSheen, s.sheen);
-      gl.uniform1f(u.uSteps, state.constrained ? Math.min(s.steps, QUALITY.low) : s.steps);
+      gl.uniform1f(u.uSteps, state.constrained ? Math.min(s.steps, CONSTRAINED_STEPS) : s.steps);
       const slope =
         s.amplitude *
         ((s.waveScale / 7) * (1 + Math.abs(s.swell) / 20) +
@@ -561,6 +567,10 @@ export default function GradientWaves({
     const tick = (now: number) => {
       state.raf = 0;
       if (!state.visible || document.hidden) return;
+      if (state.constrained && state.last && now - state.last < CONSTRAINED_FRAME_INTERVAL - 1) {
+        state.raf = requestAnimationFrame(tick);
+        return;
+      }
       const s = settingsRef.current;
       const dt = state.last ? Math.min((now - state.last) / 1000, 0.1) : 0;
       state.last = now;

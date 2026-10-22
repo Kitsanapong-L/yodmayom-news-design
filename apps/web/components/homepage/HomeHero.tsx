@@ -61,7 +61,7 @@ export default function HomeHero() {
         />
       </div>
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-64 sm:h-80">
-        <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.25)_35%,black_100%)] backdrop-blur-[4px]" />
+        <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.25)_35%,black_100%)] sm:backdrop-blur-[4px]" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent from-0% via-background/40 via-65% to-background to-100%" />
       </div>
 

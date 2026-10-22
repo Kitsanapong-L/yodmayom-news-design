@@ -1,6 +1,6 @@
-import DotGrid from "@/components/DotGrid"
 import HomeLoader from "@/components/homepage/HomeLoading"
 import HomeHero from "@/components/homepage/HomeHero"
+import LazyDotGrid from "@/components/homepage/LazyDotGrid"
 import AnimatedContent from "@/components/AnimatedContent"
 
 import {
@@ -165,7 +165,7 @@ export function Home() {
 
       <footer className="relative mx-3 mt-10 max-w-6xl overflow-hidden rounded-2xl border bg-card/80 shadow-2xl backdrop-blur-xl sm:mx-6 sm:rounded-3xl lg:mx-auto">
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 [mask-image:linear-gradient(to_bottom,transparent,black_40%)] opacity-45 sm:h-44 dark:opacity-70">
-          <DotGrid
+          <LazyDotGrid
             dotSize={3}
             gap={10}
             baseColor="#8b7ca3"

@@ -36,7 +36,7 @@ export default function HomeLoader({
         restoreScroll()
         setLoading(false)
       },
-      reduceMotion ? 0 : 650
+      reduceMotion ? 0 : 350
     )
 
     return () => {

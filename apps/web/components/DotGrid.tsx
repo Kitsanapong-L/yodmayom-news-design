@@ -93,7 +93,7 @@ void main() {
 
 type Shape = 'circle' | 'square';
 
-interface DotGridProps {
+export interface DotGridProps {
   dotSize?: number;
   gap?: number;
   baseColor?: string;
