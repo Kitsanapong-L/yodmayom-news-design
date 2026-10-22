@@ -496,7 +496,10 @@ const TextType = ({
     <span aria-hidden="true">
       {prefix ? <span style={{ color: prefixColor }}>{prefix}</span> : null}
       {showCursor && reverseMode && caret}
-      <span key={`text-${index}`} style={{ color }}>
+      <span
+        key={typeEffect === "none" ? `text-${index}-${shown}` : `text-${index}`}
+        style={{ color }}
+      >
         {renderedText}
       </span>
       {showCursor && !reverseMode && caret}
