@@ -116,7 +116,7 @@ export function Home() {
                   cursorCharacter="_"
                   prefix=""
                   startFromFullText
-                  className="text-[clamp(1.75rem,9vw,2.5rem)] leading-none sm:text-[clamp(2rem,6vw,4.75rem)]"
+                  className="min-h-[1em] text-[clamp(1.75rem,9vw,2.5rem)] leading-none sm:min-h-0 sm:text-[clamp(2rem,6vw,4.75rem)]"
                 />
               ) : (
                 <BlurText
