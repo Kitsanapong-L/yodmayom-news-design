@@ -102,10 +102,10 @@ export function Home() {
                     "欢迎来到",
                   ]}
                   typingSpeed={100}
-                  pauseDuration={3000}
+                  pauseDuration={2000}
                   deletingSpeed={100}
                   deleteMode="backspace"
-                  typeEffect="blur"
+                  typeEffect="none"
                   mistakes={0}
                   cursorStyle="bar"
                   cursorGlide
