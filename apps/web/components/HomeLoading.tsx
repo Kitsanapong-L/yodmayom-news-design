@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useReducedMotion } from "motion/react"
 
 import Logoloading from "./LogoLoading"
 
@@ -10,14 +11,15 @@ export default function HomeLoader({
   children: React.ReactNode
 }) {
   const [loading, setLoading] = useState(true)
+  const reduceMotion = useReducedMotion()
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = window.setTimeout(() => {
       setLoading(false)
-    }, 1000)
+    }, reduceMotion ? 0 : 650)
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => window.clearTimeout(timer)
+  }, [reduceMotion])
 
   if (loading) {
     return <Logoloading />
