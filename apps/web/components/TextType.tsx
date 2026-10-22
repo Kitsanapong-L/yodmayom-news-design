@@ -39,6 +39,7 @@ interface TextTypeProps {
   onSentenceComplete?: (sentence: string, index: number) => void
   startOnVisible?: boolean
   reverseMode?: boolean
+  startFromFullText?: boolean
 }
 
 type Effect = { keyframes: Keyframe[]; options: KeyframeAnimationOptions }
@@ -160,10 +161,14 @@ const TextType = ({
   onSentenceComplete,
   startOnVisible = false,
   reverseMode = false,
+  startFromFullText = false,
   ...props
 }: TextTypeProps & React.HTMLAttributes<HTMLElement>) => {
+  const firstText = Array.isArray(text) ? (text[0] ?? "") : String(text ?? "")
   const [textIndex, setTextIndex] = useState(0)
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(() =>
+    startFromFullText ? graphemes(firstText).length : 0
+  )
   const [selected, setSelected] = useState(0)
   const [typo, setTypo] = useState<Typo | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -179,6 +184,7 @@ const TextType = ({
   const placeCursor = useRef<(instant: boolean) => void>(() => {})
   const lastTypo = useRef(-1)
   const onSentenceCompleteRef = useRef(onSentenceComplete)
+  const suppressInitialEffectRef = useRef(startFromFullText)
 
   const textKey = Array.isArray(text) ? text.join("\u0000") : String(text ?? "")
   const textArray = useMemo(() => textKey.split("\u0000"), [textKey])
@@ -195,6 +201,16 @@ const TextType = ({
   useEffect(() => {
     onSentenceCompleteRef.current = onSentenceComplete
   }, [onSentenceComplete])
+
+  useEffect(() => {
+    if (!startFromFullText) return
+
+    const frame = window.requestAnimationFrame(() => {
+      suppressInitialEffectRef.current = false
+    })
+
+    return () => window.cancelAnimationFrame(frame)
+  }, [startFromFullText])
 
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -393,7 +409,6 @@ const TextType = ({
     typo,
     index,
     textArray,
-    currentText,
     loop,
     deletingSpeed,
     deleteMode,
@@ -412,6 +427,7 @@ const TextType = ({
       if (
         !node ||
         !effect ||
+        suppressInitialEffectRef.current ||
         reduceMotion ||
         typeof node.animate !== "function"
       )

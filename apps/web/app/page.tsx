@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion } from "motion/react"
 
 import DotGrid from "@/components/DotGrid"
@@ -19,8 +19,21 @@ import {
 } from "@/components/ui/card"
 
 export function Home() {
-  const [showToThe, setShowToThe] = useState(false)
+  const [welcomeBlurComplete, setWelcomeBlurComplete] = useState(false)
+  const [showWelcomeTyping, setShowWelcomeTyping] = useState(false)
+  const [showYodmayom, setShowYodmayom] = useState(false)
   const [showYodmayomWebsite, setShowYodmayomWebsite] = useState(false)
+  const [showTextType, setShowTextType] = useState(false)
+
+  useEffect(() => {
+    if (!welcomeBlurComplete) return
+
+    const timer = window.setTimeout(() => {
+      setShowWelcomeTyping(true)
+    }, 1000)
+
+    return () => window.clearTimeout(timer)
+  }, [welcomeBlurComplete])
 
   return (
     <HomeLoader>
@@ -79,42 +92,85 @@ export function Home() {
                 layout: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
               }}
             >
-              <BlurText
-                text="Welcome to"
-                effect="blur"
-                animateBy="words"
-                direction="top"
-                staggerFrom="center"
-                trigger="view"
-                delay={200}
-                stepDuration={0.35}
-                blur={10}
-                distance={50}
-                onAnimationComplete={() => setShowToThe(true)}
-                loop={false}
-                loopDelay={2}
-                focusOnHover={false}
-                className="justify-start text-[clamp(1.75rem,9vw,2.5rem)] leading-none sm:text-[clamp(2rem,6vw,4.75rem)]"
-              />
-
-              {showToThe && (
+              {showWelcomeTyping ? (
+                <TextType
+                  as="span"
+                  text={[
+                    "Welcome to",
+                    "ยินดีต้อนรับสู่",
+                    "ようこそ",
+                    "欢迎来到",
+                  ]}
+                  typingSpeed={100}
+                  pauseDuration={3000}
+                  deletingSpeed={100}
+                  deleteMode="backspace"
+                  typeEffect="blur"
+                  mistakes={0}
+                  cursorStyle="bar"
+                  cursorGlide
+                  showCursor={false}
+                  cursorColor="currentColor"
+                  prefixColor="currentColor"
+                  cursorBlinkDuration={0.5}
+                  cursorCharacter="_"
+                  prefix=""
+                  startFromFullText
+                  className="text-[clamp(1.75rem,9vw,2.5rem)] leading-none sm:text-[clamp(2rem,6vw,4.75rem)]"
+                />
+              ) : (
                 <BlurText
-                  text="yodmayom"
+                  text="Welcome to"
                   effect="blur"
                   animateBy="words"
-                  direction="left"
+                  direction="bottom"
                   staggerFrom="center"
                   trigger="load"
                   delay={200}
                   stepDuration={0.35}
                   blur={10}
                   distance={50}
-                  onAnimationComplete={() => setShowYodmayomWebsite(true)}
+                  onAnimationComplete={() => {
+                    setWelcomeBlurComplete(true)
+                    setShowYodmayom(true)
+                  }}
                   loop={false}
                   loopDelay={2}
                   focusOnHover={false}
                   className="justify-start text-[clamp(1.75rem,9vw,2.5rem)] leading-none sm:text-[clamp(2rem,6vw,4.75rem)]"
                 />
+              )}
+
+              {showYodmayom && (
+                <motion.div
+                  layout="position"
+                  transition={{
+                    layout: {
+                      type: "spring",
+                      stiffness: 220,
+                      damping: 26,
+                      mass: 0.75,
+                    },
+                  }}
+                >
+                  <BlurText
+                    text="yodmayom"
+                    effect="blur"
+                    animateBy="words"
+                    direction="left"
+                    staggerFrom="center"
+                    trigger="load"
+                    delay={200}
+                    stepDuration={0.35}
+                    blur={10}
+                    distance={50}
+                    onAnimationComplete={() => setShowYodmayomWebsite(true)}
+                    loop={false}
+                    loopDelay={2}
+                    focusOnHover={false}
+                    className="justify-start text-[clamp(1.75rem,9vw,2.5rem)] leading-none sm:text-[clamp(2rem,6vw,4.75rem)]"
+                  />
+                </motion.div>
               )}
             </motion.div>
 
@@ -131,35 +187,38 @@ export function Home() {
                   stepDuration={0.35}
                   blur={10}
                   distance={50}
+                  onAnimationComplete={() => setShowTextType(true)}
                   loop={false}
                   loopDelay={2}
                   focusOnHover={false}
                   className="justify-start text-left text-[clamp(1.25rem,6vw,1.75rem)] leading-tight sm:text-[clamp(1.5rem,4vw,3.25rem)]"
                 />
 
-                <TextType
-                  text={[
-                    "We Build Websites.",
-                    "We Develop Applications.",
-                    "We Create Intelligent Solutions.",
-                    "We Innovate with AI."
-                  ]}
-                  typingSpeed={75}
-                  pauseDuration={1500}
-                  deletingSpeed={50}
-                  deleteMode="backspace"
-                  typeEffect="none"
-                  mistakes={0}
-                  cursorStyle="underscore"
-                  cursorGlide
-                  showCursor
-                  cursorColor="currentColor"
-                  prefixColor="currentColor"
-                  cursorBlinkDuration={0.5}
-                  cursorCharacter="_"
-                  prefix=""
-                  className="text-sm font-normal tracking-normal sm:text-base"
-                />
+                {showTextType && (
+                  <TextType
+                    text={[
+                      "We Build Websites.",
+                      "We Develop Applications.",
+                      "We Create Intelligent Solutions.",
+                      "We Innovate with AI.",
+                    ]}
+                    typingSpeed={75}
+                    pauseDuration={1500}
+                    deletingSpeed={50}
+                    deleteMode="backspace"
+                    typeEffect="none"
+                    mistakes={0}
+                    cursorStyle="underscore"
+                    cursorGlide
+                    showCursor
+                    cursorColor="currentColor"
+                    prefixColor="currentColor"
+                    cursorBlinkDuration={0.5}
+                    cursorCharacter="_"
+                    prefix=""
+                    className="text-sm font-normal tracking-normal sm:text-base"
+                  />
+                )}
               </>
             )}
           </motion.div>
