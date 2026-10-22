@@ -60,6 +60,10 @@ export default function HomeHero() {
           paused={false}
         />
       </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(circle_at_72%_68%,rgba(186,230,253,0.22),transparent_42%)] opacity-35 mix-blend-screen will-change-[opacity] motion-safe:animate-[pulse_8s_ease-in-out_infinite] md:hidden"
+      />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-64 sm:h-80">
         <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.25)_35%,black_100%)] sm:backdrop-blur-[4px]" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent from-0% via-background/40 via-65% to-background to-100%" />

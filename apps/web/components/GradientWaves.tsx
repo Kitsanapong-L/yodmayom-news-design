@@ -61,9 +61,9 @@ const INTRO_SECONDS = 2.6;
 const CAMERA_HEIGHT = 30;
 const QUALITY: Record<string, number> = { low: 56, medium: 84, high: 120 };
 const CONSTRAINED_DEVICE_QUERY = '(max-width: 767px), (pointer: coarse)';
-const CONSTRAINED_DPR = 0.75;
-const CONSTRAINED_STEPS = 36;
-const CONSTRAINED_FRAME_INTERVAL = 1000 / 30;
+const CONSTRAINED_DPR = 1;
+const CONSTRAINED_STEPS = 48;
+const CONSTRAINED_TIME = 1.4;
 
 const VERTEX = `#version 300 es
 in vec2 aPosition;
@@ -455,7 +455,7 @@ export default function GradientWaves({
       height: 1,
       cssWidth: 0,
       cssHeight: 0,
-      time: 0,
+      time: constrainedDevice.matches ? CONSTRAINED_TIME : 0,
       clock: 0,
       last: 0,
       raf: 0,
@@ -567,19 +567,16 @@ export default function GradientWaves({
     const tick = (now: number) => {
       state.raf = 0;
       if (!state.visible || document.hidden) return;
-      if (state.constrained && state.last && now - state.last < CONSTRAINED_FRAME_INTERVAL - 1) {
-        state.raf = requestAnimationFrame(tick);
-        return;
-      }
       const s = settingsRef.current;
       const dt = state.last ? Math.min((now - state.last) / 1000, 0.1) : 0;
       state.last = now;
       const reduced = prefersReduced();
+      const staticFrame = reduced || state.constrained;
       state.clock += dt;
       if (state.introAt < 0) state.introAt = state.clock;
-      if (!s.paused && !reduced) state.time += dt * s.speed;
+      if (!s.paused && !staticFrame) state.time += dt * s.speed;
 
-      const steering = s.mouseInteraction && state.inside && !state.constrained && !reduced;
+      const steering = s.mouseInteraction && state.inside && !staticFrame;
       const target = steering ? state.pointer : [0.5, 0.5];
       const ease = 1 - Math.exp(-dt / 0.45);
       const goalX = (target[0] - 0.5) * s.parallaxStrength * 0.35;
@@ -596,8 +593,8 @@ export default function GradientWaves({
       const turning = Math.abs(steerX - state.steer[0]) + Math.abs(steerY - state.steer[1]) > 0.0005;
       state.swells = state.swells.filter(swell => state.clock - swell.at < SWELL_SECONDS);
 
-      const still = s.paused || reduced;
-      const transient = moving || turning || state.swells.length > 0 || introProgress(s, reduced) < 1;
+      const still = s.paused || staticFrame;
+      const transient = moving || turning || state.swells.length > 0 || introProgress(s, staticFrame) < 1;
       if (state.seen !== s || transient || !still) state.quiet = 0;
       else state.quiet += 1;
       state.seen = s;
@@ -605,7 +602,7 @@ export default function GradientWaves({
 
       state.raf = requestAnimationFrame(tick);
       fit();
-      render(reduced);
+      render(staticFrame);
     };
 
     const wake = () => {
