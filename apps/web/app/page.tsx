@@ -37,7 +37,7 @@ export function Home() {
 
   return (
     <HomeLoader>
-      <section className="relative h-[calc(130dvh-3.5rem)] overflow-hidden">
+      <section className="relative h-[calc(130svh-3.5rem)] overflow-hidden sm:h-[calc(130dvh-3.5rem)]">
         <div className="absolute inset-x-0 top-0 -bottom-12 z-0 [mask-image:linear-gradient(to_bottom,black_0%,black_58%,rgba(0,0,0,0.92)_68%,rgba(0,0,0,0.55)_82%,rgba(0,0,0,0.18)_94%,transparent_100%)]">
           <GradientWaves
             horizonColor="#1e3a8a"
@@ -74,7 +74,7 @@ export function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-0% via-background/40 via-65% to-background to-100%" />
         </div>
 
-        <div className="relative z-10 flex min-h-[calc(100dvh-3.5rem)] items-center justify-center px-6">
+        <div className="relative z-10 flex min-h-[calc(100svh-3.5rem)] items-center justify-center px-6 sm:min-h-[calc(100dvh-3.5rem)]">
           <motion.div
             layout="position"
             role="heading"
