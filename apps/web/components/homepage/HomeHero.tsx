@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import { motion } from "motion/react"
 
 import BlurText from "@/components/BlurText"
-import GradientWaves from "@/components/GradientWaves"
 import TextType from "@/components/TextType"
 
 import { useHomeReady } from "./HomeLoading"
@@ -28,55 +27,15 @@ export default function HomeHero() {
   }, [welcomeBlurComplete])
 
   return (
-    <section className="relative h-[calc(130svh-3.5rem)] overflow-hidden sm:h-[calc(130dvh-3.5rem)]">
-      <div className="absolute inset-x-0 top-0 -bottom-12 z-0 [mask-image:linear-gradient(to_bottom,black_0%,black_58%,rgba(0,0,0,0.92)_68%,rgba(0,0,0,0.55)_82%,rgba(0,0,0,0.18)_94%,transparent_100%)]">
-        <GradientWaves
-          horizonColor="#1e3a8a"
-          waveColor="#38bdf8"
-          crestColor="#e0f2fe"
-          speed={0.5}
-          amplitude={1.8}
-          relief={1}
-          lightAngle={150}
-          mouseInteraction
-          swellOnClick
-          lightMode={false}
-          waveScale={0.9}
-          waveRatio={0.9}
-          swell={25}
-          turbulence={28}
-          tilt={60}
-          zoom={1.4}
-          height={5.5}
-          fogDepth={15}
-          sheen={0}
-          brightness={1}
-          opacity={1}
-          grain={0.2}
-          quality="medium"
-          intro
-          parallaxStrength={0.5}
-          mouseStrength={0.6}
-          paused={false}
-        />
-      </div>
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(circle_at_72%_68%,rgba(186,230,253,0.22),transparent_42%)] opacity-35 mix-blend-screen will-change-[opacity] motion-safe:animate-[pulse_8s_ease-in-out_infinite] md:hidden"
-      />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-64 sm:h-80">
-        <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.25)_35%,black_100%)] sm:backdrop-blur-[4px]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent from-0% via-background/40 via-65% to-background to-100%" />
-      </div>
-
-      <div className="relative z-10 flex min-h-[calc(100svh-3.5rem)] items-center justify-center px-6 sm:min-h-[calc(100dvh-3.5rem)]">
+    <section className="relative h-[calc(130svh-3.5rem)] overflow-hidden bg-background sm:h-[calc(130dvh-3.5rem)]">
+      <div className="flex min-h-[calc(100svh-3.5rem)] items-center justify-center px-6 sm:min-h-[calc(100dvh-3.5rem)]">
         {isReady && (
           <motion.div
             layout="position"
             role="heading"
             aria-level={1}
             aria-label="Welcome to yodmayom. Use ideas to become innovations."
-            className="flex w-full max-w-6xl flex-col items-start justify-center gap-[clamp(0.375rem,1vw,0.75rem)] font-semibold tracking-[-0.04em] text-slate-100 drop-shadow-[0_4px_24px_rgba(0,0,0,0.55)] dark:text-white"
+            className="flex w-full max-w-6xl flex-col items-start justify-center gap-[clamp(0.375rem,1vw,0.75rem)] font-semibold tracking-[-0.04em] text-foreground"
             transition={{
               layout: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
             }}
