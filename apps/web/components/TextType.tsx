@@ -462,6 +462,14 @@ const TextType = ({
   ))
   if (reverseMode) mistyped.reverse()
 
+  const plainText = chars.slice(start, start + shown).join("")
+  const renderedText =
+    typeEffect === "none" && typo === null && selected === 0
+      ? plainText
+      : reverseMode
+        ? [...mistyped, ...correct]
+        : [...correct, ...mistyped]
+
   const caret = (
     <span ref={caretRef} className="inline-block w-0">
       {"\u200B"}
@@ -488,9 +496,7 @@ const TextType = ({
     <span aria-hidden="true">
       {prefix ? <span style={{ color: prefixColor }}>{prefix}</span> : null}
       {reverseMode && caret}
-      <span style={{ color }}>
-        {reverseMode ? [...mistyped, ...correct] : [...correct, ...mistyped]}
-      </span>
+      <span style={{ color }}>{renderedText}</span>
       {!reverseMode && caret}
     </span>,
     showCursor && (
