@@ -9,6 +9,9 @@ export default function Logoloading() {
   return (
     <div
       data-site-loading
+      role="status"
+      aria-live="polite"
+      aria-label="Loading Yodmayom"
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-white dark:bg-[#05070b]"
     >
       <motion.div
