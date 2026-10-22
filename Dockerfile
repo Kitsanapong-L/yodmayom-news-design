@@ -1,22 +1,20 @@
-FROM node:22-bookworm-slim AS base
+FROM oven/bun:1.4.4-slim AS dependencies
 
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 
-FROM base AS dependencies
-
-COPY package.json package-lock.json ./
+COPY package.json bun.lock ./
 COPY apps/web/package.json ./apps/web/package.json
 COPY packages/ui/package.json ./packages/ui/package.json
 COPY packages/typescript-config/package.json ./packages/typescript-config/package.json
 COPY packages/eslint-config/package.json ./packages/eslint-config/package.json
 
-RUN npm ci
+RUN bun install --frozen-lockfile
 
 FROM dependencies AS builder
 
 COPY . .
-RUN npm run build --workspace=web
+RUN bun run --cwd apps/web build
 
 FROM node:22-bookworm-slim AS runner
 

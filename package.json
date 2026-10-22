@@ -17,16 +17,12 @@
     "turbo": "^2.11.7",
     "typescript": "^5"
   },
-  "packageManager": "npm@12.2.0",
+  "packageManager": "bun@1.4.4",
   "engines": {
     "node": ">=20.9.0"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
-  ],
-  "dependencies": {
-    "@tabler/icons-react": "^3.49.0",
-    "motion": "^14.4.0"
-  }
+  ]
 }
