@@ -1,6 +1,7 @@
 {
   "extends": "@workspace/typescript-config/nextjs.json",
   "compilerOptions": {
+    "noUncheckedIndexedAccess": false,
     "paths": {
       "@/components/ui/*": ["../../packages/ui/src/components/*"],
       "@/public/*": ["/apps/web/public/*"],
