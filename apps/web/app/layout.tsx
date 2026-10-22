@@ -35,9 +35,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/banner/banner-yodmayom.png",
-        width: 1734,
-        height: 907,
+        url: "/banner/banner-yodmayom-optimized.jpg",
+        width: 1200,
+        height: 630,
         alt: "Yodmayom",
       },
     ],
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Yodmayom",
     description: "ติดตามข่าวสาร ประกาศ และกิจกรรมจาก Yodmayom",
-    images: ["/banner/banner-yodmayom.png"],
+    images: ["/banner/banner-yodmayom-optimized.jpg"],
   },
 }
 
@@ -95,7 +95,7 @@ export default function RootLayout({
                   aria-label="Yodmayom home"
                 >
                   <Image
-                    src="/nav-logo/white/yodmayom_light.png"
+                    src="/nav-logo/white/yodmayom_light-optimized.png"
                     alt="Yodmayom"
                     width={180}
                     height={38}
@@ -103,7 +103,7 @@ export default function RootLayout({
                     className="h-7 w-auto object-contain dark:hidden"
                   />
                   <Image
-                    src="/nav-logo/black/yodmayom_dark.png"
+                    src="/nav-logo/black/yodmayom_dark-optimized.png"
                     alt=""
                     width={180}
                     height={38}

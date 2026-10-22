@@ -60,6 +60,7 @@ const SWELL_WIDTH = 8;
 const INTRO_SECONDS = 2.6;
 const CAMERA_HEIGHT = 30;
 const QUALITY: Record<string, number> = { low: 56, medium: 84, high: 120 };
+const CONSTRAINED_DEVICE_QUERY = '(max-width: 767px), (pointer: coarse)';
 
 const VERTEX = `#version 300 es
 in vec2 aPosition;
@@ -445,6 +446,7 @@ export default function GradientWaves({
     gl.useProgram(program);
 
     const swellData = new Float32Array(MAX_SWELLS * 3);
+    const constrainedDevice = window.matchMedia(CONSTRAINED_DEVICE_QUERY);
     const state = {
       width: 1,
       height: 1,
@@ -461,13 +463,14 @@ export default function GradientWaves({
       look: [0, 0],
       steer: [0, 0],
       swells: [] as Swell[],
+      constrained: constrainedDevice.matches,
       quiet: 0,
       seen: null as typeof settings | null
     };
 
     const fit = () => {
       const s = settingsRef.current;
-      const ratio = Math.min(window.devicePixelRatio || 1, s.dpr);
+      const ratio = Math.min(window.devicePixelRatio || 1, state.constrained ? 1 : s.dpr);
       const width = Math.max(1, Math.round(state.cssWidth * ratio));
       const height = Math.max(1, Math.round(state.cssHeight * ratio));
       if (width === state.width && height === state.height) return;
@@ -527,7 +530,7 @@ export default function GradientWaves({
       );
       gl.uniform1f(u.uRelief, s.relief);
       gl.uniform1f(u.uSheen, s.sheen);
-      gl.uniform1f(u.uSteps, s.steps);
+      gl.uniform1f(u.uSteps, state.constrained ? Math.min(s.steps, QUALITY.low) : s.steps);
       const slope =
         s.amplitude *
         ((s.waveScale / 7) * (1 + Math.abs(s.swell) / 20) +
@@ -566,7 +569,7 @@ export default function GradientWaves({
       if (state.introAt < 0) state.introAt = state.clock;
       if (!s.paused && !reduced) state.time += dt * s.speed;
 
-      const steering = s.mouseInteraction && state.inside && !reduced;
+      const steering = s.mouseInteraction && state.inside && !state.constrained && !reduced;
       const target = steering ? state.pointer : [0.5, 0.5];
       const ease = 1 - Math.exp(-dt / 0.45);
       const goalX = (target[0] - 0.5) * s.parallaxStrength * 0.35;
@@ -616,6 +619,7 @@ export default function GradientWaves({
     };
 
     const onMove = (event: PointerEvent) => {
+      if (state.constrained) return;
       const point = local(event);
       const was = state.inside;
       state.inside = point.inside;
@@ -630,7 +634,7 @@ export default function GradientWaves({
 
     const onDown = (event: PointerEvent) => {
       const s = settingsRef.current;
-      if (!s.swellOnClick || event.button !== 0 || prefersReduced()) return;
+      if (state.constrained || !s.swellOnClick || event.button !== 0 || prefersReduced()) return;
       if (
         event.target instanceof Element &&
         event.target.closest('a, button, input, textarea, select, label, [role="button"]')
@@ -645,6 +649,15 @@ export default function GradientWaves({
       wake();
     };
 
+    const onConstrainedDeviceChange = (event: MediaQueryListEvent) => {
+      state.constrained = event.matches;
+      state.inside = false;
+      state.pointer = [0.5, 0.5];
+      state.swells = [];
+      fit();
+      wake();
+    };
+
     const visibility = new IntersectionObserver(entries => {
       state.visible = entries.some(entry => entry.isIntersecting);
       wake();
@@ -654,6 +667,7 @@ export default function GradientWaves({
     sizes.observe(container);
     measure();
     document.addEventListener('visibilitychange', wake);
+    constrainedDevice.addEventListener('change', onConstrainedDeviceChange);
     window.addEventListener('pointermove', onMove, { passive: true });
     window.addEventListener('pointerdown', onDown);
     document.documentElement.addEventListener('pointerleave', onLeave);
@@ -663,6 +677,7 @@ export default function GradientWaves({
       cancelAnimationFrame(state.raf);
       wakeRef.current = null;
       document.removeEventListener('visibilitychange', wake);
+      constrainedDevice.removeEventListener('change', onConstrainedDeviceChange);
       visibility.disconnect();
       sizes.disconnect();
       window.removeEventListener('pointermove', onMove);

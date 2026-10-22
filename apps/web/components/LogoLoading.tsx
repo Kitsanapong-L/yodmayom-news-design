@@ -20,7 +20,7 @@ export default function Logoloading() {
         }}
       >
         <Image
-          src="/tab-logo/white/Y-logo-white.png"
+          src="/tab-logo/white/Y-logo-white-optimized.png"
           alt="Yodmayom"
           width={120}
           height={120}
@@ -28,7 +28,7 @@ export default function Logoloading() {
           className="h-20 w-20 object-contain dark:hidden"
         />
         <Image
-          src="/tab-logo/black/Y-logo-dark.png"
+          src="/tab-logo/black/Y-logo-dark-optimized.png"
           alt=""
           width={120}
           height={120}
