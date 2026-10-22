@@ -16,7 +16,7 @@ FROM dependencies AS builder
 COPY . .
 RUN bun run --cwd apps/web build
 
-FROM node:22-bookworm-slim AS runner
+FROM oven/bun:1.4.4-slim AS runner
 
 WORKDIR /app
 
@@ -25,13 +25,11 @@ ENV NODE_ENV=production \
     HOSTNAME=0.0.0.0 \
     PORT=3000
 
-RUN useradd --system --uid 1001 nextjs
+COPY --from=builder --chown=bun:bun /app/apps/web/.next/standalone ./
+COPY --from=builder --chown=bun:bun /app/apps/web/public ./apps/web/public
+COPY --from=builder --chown=bun:bun /app/apps/web/.next/static ./apps/web/.next/static
 
-COPY --from=builder --chown=nextjs:nextjs /app/apps/web/.next/standalone ./
-COPY --from=builder --chown=nextjs:nextjs /app/apps/web/public ./apps/web/public
-COPY --from=builder --chown=nextjs:nextjs /app/apps/web/.next/static ./apps/web/.next/static
-
-USER nextjs
+USER bun
 
 EXPOSE 3000
 
