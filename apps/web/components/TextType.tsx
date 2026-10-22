@@ -495,9 +495,11 @@ const TextType = ({
     <span className="sr-only">{prefix + textArray.join(" ")}</span>,
     <span aria-hidden="true">
       {prefix ? <span style={{ color: prefixColor }}>{prefix}</span> : null}
-      {reverseMode && caret}
-      <span style={{ color }}>{renderedText}</span>
-      {!reverseMode && caret}
+      {showCursor && reverseMode && caret}
+      <span key={`text-${index}`} style={{ color }}>
+        {renderedText}
+      </span>
+      {showCursor && !reverseMode && caret}
     </span>,
     showCursor && (
       <span
