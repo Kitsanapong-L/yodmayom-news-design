@@ -10,7 +10,6 @@ import {
   useRef,
   useState,
 } from "react"
-import { gsap } from "gsap"
 
 interface TextTypeProps {
   className?: string
@@ -178,8 +177,6 @@ const TextType = ({
   const caretRef = useRef<HTMLSpanElement>(null)
   const cursorRef = useRef<HTMLSpanElement>(null)
   const blinkRef = useRef<HTMLSpanElement>(null)
-  const blinkTimeline = useRef<ReturnType<typeof gsap.timeline> | null>(null)
-  const blinkResume = useRef<ReturnType<typeof gsap.delayedCall> | null>(null)
   const caretPosition = useRef<{ x: number; y: number } | null>(null)
   const placeCursor = useRef<(instant: boolean) => void>(() => {})
   const lastTypo = useRef(-1)
@@ -239,27 +236,19 @@ const TextType = ({
   useEffect(() => {
     const blink = blinkRef.current
     if (!showCursor || !blink) return
-    gsap.set(blink, { opacity: 1 })
+    blink.style.opacity = "1"
     if (reduceMotion || cursorBlinkDuration <= 0) return
 
-    const hold = cursorBlinkDuration * 0.7
-    const fade = cursorBlinkDuration * 0.45
-    const timeline = gsap.timeline({ repeat: -1 })
-    timeline
-      .to(blink, { opacity: 0, duration: fade, ease: "sine.inOut" }, hold)
-      .to(
-        blink,
-        { opacity: 1, duration: fade, ease: "sine.inOut" },
-        hold + fade + cursorBlinkDuration * 0.4
-      )
-    blinkTimeline.current = timeline
+    const animation = blink.animate(
+      [{ opacity: 1 }, { opacity: 1 }, { opacity: 0 }, { opacity: 1 }],
+      {
+        duration: cursorBlinkDuration * 2000,
+        iterations: Infinity,
+        easing: "ease-in-out",
+      }
+    )
 
-    return () => {
-      timeline.kill()
-      blinkResume.current?.kill()
-      gsap.killTweensOf(blink)
-      blinkTimeline.current = null
-    }
+    return () => animation.cancel()
   }, [showCursor, cursorBlinkDuration, reduceMotion])
 
   useIsomorphicLayoutEffect(() => {
@@ -286,25 +275,17 @@ const TextType = ({
         reduceMotion ||
         Math.abs(last.y - y) > 1
       ) {
-        gsap.killTweensOf(cursor)
-        gsap.set(cursor, { x, y })
+        cursor.style.transition = "none"
       } else {
-        gsap.to(cursor, {
-          x,
-          y,
-          duration: glideTime,
-          ease: "power3.out",
-          overwrite: true,
-        })
+        cursor.style.transition = `transform ${glideTime}s cubic-bezier(0.22, 1, 0.36, 1)`
       }
+      cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`
 
-      const timeline = blinkTimeline.current
       const blink = blinkRef.current
-      if (instant || !timeline || !blink) return
-      timeline.pause()
-      blinkResume.current?.kill()
-      gsap.to(blink, { opacity: 1, duration: 0.12, ease: "power1.out" })
-      blinkResume.current = gsap.delayedCall(0.12, () => timeline.restart())
+      if (instant || !blink) return
+      blink.getAnimations().forEach((animation) => {
+        animation.currentTime = 0
+      })
     }
     placeCursor.current(false)
   })

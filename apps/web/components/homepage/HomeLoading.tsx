@@ -1,15 +1,9 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useReducedMotion } from "motion/react"
 
 import Logoloading from "./LogoLoading"
-
-const HomeReadyContext = createContext(true)
-
-export function useHomeReady() {
-  return useContext(HomeReadyContext)
-}
 
 export default function HomeLoader({
   children,
@@ -46,11 +40,11 @@ export default function HomeLoader({
   }, [reduceMotion])
 
   return (
-    <HomeReadyContext.Provider value={!loading}>
+    <>
       <div aria-hidden={loading || undefined} inert={loading || undefined}>
         {children}
       </div>
       {loading && <Logoloading />}
-    </HomeReadyContext.Provider>
+    </>
   )
 }
