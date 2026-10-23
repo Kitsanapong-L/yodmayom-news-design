@@ -17,6 +17,20 @@ export default function HomeHero() {
   const [showTextType, setShowTextType] = useState(false)
 
   useEffect(() => {
+    let secondFrame = 0
+    const firstFrame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(() => {
+        window.dispatchEvent(new Event("yodmayom:hero-ready"))
+      })
+    })
+
+    return () => {
+      window.cancelAnimationFrame(firstFrame)
+      window.cancelAnimationFrame(secondFrame)
+    }
+  }, [])
+
+  useEffect(() => {
     if (!welcomeBlurComplete) return
 
     const timer = window.setTimeout(() => {

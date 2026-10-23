@@ -1,33 +1,24 @@
 "use client"
 
 import Image from "next/image"
-import { motion, useReducedMotion } from "motion/react"
 
-export default function Logoloading() {
-  const reduceMotion = useReducedMotion()
-
+export default function Logoloading({ leaving = false }: { leaving?: boolean }) {
   return (
     <div
       data-site-loading
       role="status"
       aria-live="polite"
       aria-label="Loading Yodmayom"
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-white dark:bg-[#05070b]"
+      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-white transition-opacity duration-200 ease-out dark:bg-[#05070b] ${
+        leaving ? "pointer-events-none opacity-0" : "opacity-100"
+      }`}
     >
-      <motion.div
-        animate={reduceMotion ? { opacity: 1 } : { opacity: [0.4, 1, 0.4] }}
-        transition={{
-          duration: 2,
-          ease: "easeInOut",
-          repeat: Infinity,
-        }}
-      >
+      <div className="animate-pulse motion-reduce:animate-none">
         <Image
           src="/tab-logo/white/Y-logo-white-optimized.png"
           alt="Yodmayom"
           width={120}
           height={120}
-          priority
           className="h-20 w-20 object-contain dark:hidden"
         />
         <Image
@@ -35,11 +26,10 @@ export default function Logoloading() {
           alt=""
           width={120}
           height={120}
-          priority
           aria-hidden="true"
           className="hidden h-20 w-20 object-contain dark:block"
         />
-      </motion.div>
+      </div>
     </div>
   )
 }

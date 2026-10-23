@@ -1,14 +1,6 @@
-import { Geist_Mono, IBM_Plex_Sans_Thai } from "next/font/google"
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
+import { IBM_Plex_Sans_Thai } from "next/font/google"
 import { MobileNavigation } from "@/components/mobile-navigation"
 import { ModeToggle } from "@/components/mode-toggle"
-import { NavigationEntrance } from "@/components/navigation-entrance"
 import { SmoothScroll } from "@/components/smooth-scroll"
 import { Separator } from "@/components/ui/separator"
 import { HouseIcon, InfoIcon, UsersIcon } from "lucide-react"
@@ -53,16 +45,11 @@ export const metadata: Metadata = {
 }
 
 const ibmPlexSansThai = IBM_Plex_Sans_Thai({
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
   style: "normal",
   subsets: ["thai", "latin"],
   display: "swap",
   variable: "--font-ibm-plex-sans-thai",
-})
-
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
 })
 
 export default function RootLayout({
@@ -77,7 +64,6 @@ export default function RootLayout({
       className={cn(
         "antialiased",
         ibmPlexSansThai.variable,
-        fontMono.variable,
         "font-sans"
       )}
     >
@@ -90,8 +76,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <header className="sticky top-0 z-50 h-14 bg-background/80 backdrop-blur-md">
-            <NavigationEntrance>
-              <div className="mx-auto flex h-full w-full max-w-7xl items-center gap-2 px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto flex h-full w-full max-w-7xl items-center gap-2 px-4 sm:px-6 lg:px-8">
                 <Link
                   href="/"
                   className="-ml-0 flex h-10 shrink-0 items-center sm:ml-0"
@@ -102,7 +87,6 @@ export default function RootLayout({
                     alt="Yodmayom"
                     width={180}
                     height={38}
-                    priority
                     className="h-7 w-auto object-contain dark:hidden"
                   />
                   <Image
@@ -110,7 +94,6 @@ export default function RootLayout({
                     alt=""
                     width={180}
                     height={38}
-                    priority
                     aria-hidden="true"
                     className="hidden h-7 w-auto object-contain dark:block"
                   />
@@ -119,46 +102,29 @@ export default function RootLayout({
                   orientation="vertical"
                   className="ml-4 mr-0 hidden !h-5 -translate-x-0.5 !self-center md:block"
                 />
-                <NavigationMenu className="hidden md:flex">
-                  <NavigationMenuList>
-                    <NavigationMenuItem>
-                      <NavigationMenuLink
-                        className={cn(
-                          navigationMenuTriggerStyle(),
-                          "focus:bg-transparent focus-visible:bg-muted"
-                        )}
-                        render={<Link href="/" />}
-                      >
-                        <HouseIcon aria-hidden="true" />
-                        <span>Home</span>
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                      <NavigationMenuLink
-                        className={cn(
-                          navigationMenuTriggerStyle(),
-                          "focus:bg-transparent focus-visible:bg-muted"
-                        )}
-                        render={<Link href="/about" />}
-                      >
-                        <InfoIcon aria-hidden="true" />
-                        <span>About</span>
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                      <NavigationMenuLink
-                        className={cn(
-                          navigationMenuTriggerStyle(),
-                          "focus:bg-transparent focus-visible:bg-muted"
-                        )}
-                        render={<Link href="/member" />}
-                      >
-                        <UsersIcon aria-hidden="true" />
-                        <span>Member</span>
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
-                  </NavigationMenuList>
-                </NavigationMenu>
+                <nav className="hidden items-center md:flex" aria-label="Main navigation">
+                  <Link
+                    href="/"
+                    className="inline-flex h-9 items-center gap-2 rounded-md px-2.5 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                  >
+                    <HouseIcon className="size-4" aria-hidden="true" />
+                    <span>Home</span>
+                  </Link>
+                  <Link
+                    href="/about"
+                    className="inline-flex h-9 items-center gap-2 rounded-md px-2.5 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                  >
+                    <InfoIcon className="size-4" aria-hidden="true" />
+                    <span>About</span>
+                  </Link>
+                  <Link
+                    href="/member"
+                    className="inline-flex h-9 items-center gap-2 rounded-md px-2.5 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                  >
+                    <UsersIcon className="size-4" aria-hidden="true" />
+                    <span>Member</span>
+                  </Link>
+                </nav>
 
                 <div className="ml-auto flex shrink-0 items-center gap-2">
                   <ModeToggle />
@@ -166,8 +132,7 @@ export default function RootLayout({
                     <MobileNavigation />
                   </div>
                 </div>
-              </div>
-            </NavigationEntrance>
+            </div>
             <Separator />
           </header>
           <main>{children}</main>

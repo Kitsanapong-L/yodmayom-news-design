@@ -11,11 +11,16 @@ export default function HomeLoader({
   children: React.ReactNode
 }) {
   const [loading, setLoading] = useState(true)
+  const [leaving, setLeaving] = useState(false)
   const reduceMotion = useReducedMotion()
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow
     let restored = false
+    let finishing = false
+    let exitTimer = 0
+    let heroReady = Boolean(reduceMotion)
+    let minimumElapsed = Boolean(reduceMotion)
 
     const restoreScroll = () => {
       if (restored) return
@@ -25,16 +30,41 @@ export default function HomeLoader({
 
     document.body.style.overflow = "hidden"
 
-    const timer = window.setTimeout(
-      () => {
-        restoreScroll()
+    const tryFinishLoading = () => {
+      if (finishing || !heroReady || !minimumElapsed) return
+      finishing = true
+      restoreScroll()
+
+      if (reduceMotion) {
         setLoading(false)
-      },
-      reduceMotion ? 0 : 350
-    )
+        return
+      }
+
+      setLeaving(true)
+      exitTimer = window.setTimeout(() => setLoading(false), 220)
+    }
+
+    const handleHeroReady = () => {
+      heroReady = true
+      tryFinishLoading()
+    }
+
+    window.addEventListener("yodmayom:hero-ready", handleHeroReady)
+    const minimumTimer = window.setTimeout(() => {
+      minimumElapsed = true
+      tryFinishLoading()
+    }, reduceMotion ? 0 : 350)
+    const fallbackTimer = window.setTimeout(() => {
+      heroReady = true
+      minimumElapsed = true
+      tryFinishLoading()
+    }, reduceMotion ? 0 : 1200)
 
     return () => {
-      window.clearTimeout(timer)
+      window.removeEventListener("yodmayom:hero-ready", handleHeroReady)
+      window.clearTimeout(minimumTimer)
+      window.clearTimeout(fallbackTimer)
+      window.clearTimeout(exitTimer)
       restoreScroll()
     }
   }, [reduceMotion])
@@ -44,7 +74,7 @@ export default function HomeLoader({
       <div aria-hidden={loading || undefined} inert={loading || undefined}>
         {children}
       </div>
-      {loading && <Logoloading />}
+      {loading && <Logoloading leaving={leaving} />}
     </>
   )
 }
