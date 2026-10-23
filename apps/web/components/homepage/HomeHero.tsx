@@ -72,8 +72,8 @@ export default function HomeHero() {
                 direction="bottom"
                 staggerFrom="center"
                 trigger="load"
-                delay={200}
-                stepDuration={0.35}
+                delay={100}
+                stepDuration={0.18}
                 blur={10}
                 distance={50}
                 onAnimationComplete={() => {
@@ -106,8 +106,8 @@ export default function HomeHero() {
                   direction="left"
                   staggerFrom="center"
                   trigger="load"
-                  delay={200}
-                  stepDuration={0.35}
+                  delay={100}
+                  stepDuration={0.18}
                   blur={10}
                   distance={50}
                   onAnimationComplete={() => setShowYodmayomWebsite(true)}
@@ -130,7 +130,7 @@ export default function HomeHero() {
                 staggerFrom="center"
                 trigger="load"
                 delay={0}
-                stepDuration={0.35}
+                stepDuration={0.18}
                 blur={10}
                 distance={50}
                 onAnimationComplete={() => setShowTextType(true)}
