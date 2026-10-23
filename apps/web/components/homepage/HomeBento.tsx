@@ -41,10 +41,10 @@ const bentoItems: BentoItem[] = [
   {
     id: "featured",
     eyebrow: "Featured content",
-    title: "AI Deep Learning RNN (Long Short-Term Memory)",
-    description: "AI Deep Learning ของ Yodmayom Team ของเรา",
+    title: "AI Model AquaGuard-1.0",
+    description: "Deep Learning Model — LSTM Neural Network",
     detail:
-      "test",
+      "โมเดลปัญญาประดิษฐ์ที่พัฒนาด้วย Deep Learning โดยใช้โครงข่ายประสาทเทียมแบบ Long Short-term memory เพื่อวิเคราะห์ข้อมูลคุณภาพน้ำ ค่าDO ค่าpH ค่าTemperature ตามช่วงเวลา พยากรณ์แนวโน้มการเปลี่ยนแปลงของคุณภาพน้ำ และประเมินความเสี่ยงที่อาจส่งผลต่อสุขภาพของปลา",
     icon: Sparkles,
     gridClassName: "col-span-3 lg:col-span-2 lg:row-span-2",
     delay: 0,
@@ -127,7 +127,7 @@ function ExpandedCard({ item }: { item: BentoItem }) {
           <div className="flex size-11 items-center justify-center rounded-xl border bg-muted">
             <Icon className="size-5" aria-hidden="true" />
           </div>
-          <p className="text-sm font-medium texit-primary">{item.eyebrow}</p>
+          <p className="text-sm font-medium text-primary">{item.eyebrow}</p>
           <DialogTitle className="text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
             {item.title}
           </DialogTitle>
@@ -136,9 +136,15 @@ function ExpandedCard({ item }: { item: BentoItem }) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="relative mt-10 min-h-[42svh] overflow-hidden rounded-2xl border bg-muted/35">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] [mask-image:radial-gradient(circle_at_center,black,transparent_80%)] bg-[size:3rem_3rem] opacity-25" />
-          <Icon className="absolute right-8 bottom-8 size-16 text-foreground/45 sm:size-24" />
+        <div className="group relative mt-10 min-h-[42svh] overflow-hidden rounded-2xl border bg-muted/35">
+          {item.id === "featured" ? (
+            <IntegrationBeam expanded />
+          ) : (
+            <>
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] [mask-image:radial-gradient(circle_at_center,black,transparent_80%)] bg-[size:3rem_3rem] opacity-25" />
+              <Icon className="absolute right-8 bottom-8 size-16 text-foreground/45 sm:size-24" />
+            </>
+          )}
         </div>
 
         <div className="mt-8 grid gap-3 border-t pt-6 sm:grid-cols-[10rem_1fr]">
@@ -172,9 +178,9 @@ function HomeBentoCard({ item }: { item: BentoItem }) {
             <motion.button
               type="button"
               className="block h-full w-full rounded-xl text-left outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-              whileHover={{ y: -4 }}
-              whileTap={{ scale: 0.99 }}
-              transition={{ type: "spring", stiffness: 360, damping: 26 }}
+              whileHover={{ y: -3 }}
+              whileTap={{ scale: 0.995 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             />
           }
         >
@@ -191,6 +197,7 @@ function HomeBentoCard({ item }: { item: BentoItem }) {
             }
             className="h-full"
             cta="View details"
+            hideIcon={item.featured}
           />
         </DialogTrigger>
 

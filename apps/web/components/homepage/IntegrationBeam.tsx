@@ -8,7 +8,6 @@ import {
   type ReactNode,
   type RefObject,
 } from "react"
-import { useInView, useReducedMotion } from "motion/react"
 
 import { AnimatedBeam } from "@/components/ui/animated-beam"
 
@@ -30,12 +29,12 @@ const NetworkNode = forwardRef<HTMLDivElement, NetworkNodeProps>(
         style={style}
         className={`absolute z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-border bg-white font-semibold text-black shadow-[0_0_20px_-10px_rgba(0,0,0,0.8)] dark:border-white/20 ${
           size === "logo"
-            ? "size-16 p-3 sm:size-20 sm:p-4"
+            ? "size-14 p-3 sm:size-20 sm:p-4"
             : size === "output"
-              ? "h-10 min-w-20 px-3 text-[9px] whitespace-nowrap sm:h-12 sm:min-w-24 sm:text-[10px]"
-            : size === "input"
-              ? "size-10 text-[10px] sm:size-12 sm:text-xs"
-              : "size-8 text-[9px] sm:size-10 sm:text-[10px]"
+              ? "h-8 min-w-18 px-2 text-[8px] whitespace-nowrap sm:h-12 sm:min-w-24 sm:px-3 sm:text-[10px]"
+              : size === "input"
+                ? "size-8 text-[9px] sm:size-12 sm:text-xs"
+                : "size-8 text-[9px] sm:size-10 sm:text-[10px]"
         } ${className}`}
       >
         {children}
@@ -44,10 +43,16 @@ const NetworkNode = forwardRef<HTMLDivElement, NetworkNodeProps>(
   }
 )
 
-const inputPoints = [28, 50, 72]
-const outputPoints = [39, 61]
+const inputPoints = [34, 56, 78]
+const outputPoints = [45, 67]
+const expandedInputPoints = [28, 50, 72]
+const expandedOutputPoints = [39, 61]
 
-export default function IntegrationBeam() {
+export default function IntegrationBeam({
+  expanded = false,
+}: {
+  expanded?: boolean
+}) {
   const containerRef = useRef<HTMLDivElement>(null)
   const input1 = useRef<HTMLDivElement>(null)
   const input2 = useRef<HTMLDivElement>(null)
@@ -55,41 +60,39 @@ export default function IntegrationBeam() {
   const logoRef = useRef<HTMLDivElement>(null)
   const output1 = useRef<HTMLDivElement>(null)
   const output2 = useRef<HTMLDivElement>(null)
-  const isInView = useInView(containerRef, { amount: 0.15 })
-  const reduceMotion = useReducedMotion()
-
   const inputRefs = [input1, input2, input3]
   const outputRefs = [output1, output2]
   const outputLabels = ["Risk value", "Predict value"]
+  const activeInputPoints = expanded ? expandedInputPoints : inputPoints
+  const activeOutputPoints = expanded ? expandedOutputPoints : outputPoints
+  const logoTop = expanded ? "50%" : "56%"
   const connections: Array<{
     fromRef: RefObject<HTMLDivElement | null>
     toRef: RefObject<HTMLDivElement | null>
     curvature: number
   }> = [
-    { fromRef: input1, toRef: logoRef, curvature: 34 },
+    { fromRef: input1, toRef: logoRef, curvature: 40 },
     { fromRef: input2, toRef: logoRef, curvature: 0 },
-    { fromRef: input3, toRef: logoRef, curvature: -34 },
-    { fromRef: logoRef, toRef: output1, curvature: 22 },
-    { fromRef: logoRef, toRef: output2, curvature: -22 },
+    { fromRef: input3, toRef: logoRef, curvature: -40 },
+    { fromRef: logoRef, toRef: output1, curvature: 54 },
+    { fromRef: logoRef, toRef: output2, curvature: -54 },
   ]
 
   return (
     <div
       ref={containerRef}
-      className="absolute inset-x-0 top-0 h-[72%] overflow-hidden border-b bg-muted/20 text-foreground [mask-image:linear-gradient(to_bottom,black_72%,transparent)]"
+      className={`absolute inset-x-0 top-0 origin-center overflow-hidden bg-muted/20 text-foreground transition-all duration-300 ease-out group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none ${
+        expanded
+          ? "h-full"
+          : "h-[60%] border-b [mask-image:linear-gradient(to_bottom,black_45%,transparent_88%)] sm:h-[72%] sm:[mask-image:linear-gradient(to_bottom,black_72%,transparent)]"
+      }`}
       aria-label="Water quality model visualization"
     >
-      <div className="absolute inset-x-0 top-2 grid grid-cols-3 text-center text-[8px] font-medium text-muted-foreground sm:text-[10px]">
-        <span>Input</span>
-        <span>Yodmayom</span>
-        <span>Output</span>
-      </div>
-
       {inputRefs.map((ref, index) => (
         <NetworkNode
           key={`input-${index}`}
           ref={ref}
-          style={{ left: "16.6667%", top: `${inputPoints[index]}%` }}
+          style={{ left: "16.6667%", top: `${activeInputPoints[index]}%` }}
           size="input"
         >
           {index === 0 ? "T" : index === 1 ? "DO" : "pH"}
@@ -98,7 +101,7 @@ export default function IntegrationBeam() {
 
       <NetworkNode
         ref={logoRef}
-        style={{ left: "50%", top: "50%" }}
+        style={{ left: "50%", top: logoTop }}
         size="logo"
       >
         <Image
@@ -114,7 +117,7 @@ export default function IntegrationBeam() {
         <NetworkNode
           key={`output-${index}`}
           ref={ref}
-          style={{ left: "83.3333%", top: `${outputPoints[index]}%` }}
+          style={{ left: "83.3333%", top: `${activeOutputPoints[index]}%` }}
           size="output"
           className="text-center"
         >
@@ -122,26 +125,22 @@ export default function IntegrationBeam() {
         </NetworkNode>
       ))}
 
-      {connections.map(({ fromRef, toRef, curvature }, index) => {
-        const shouldAnimate = isInView && !reduceMotion
-
-        return (
-          <AnimatedBeam
-            key={index}
-            containerRef={containerRef}
-            fromRef={fromRef}
-            toRef={toRef}
-            curvature={curvature}
-            duration={shouldAnimate ? 4.2 : 0.01}
-            delay={index * 0.2}
-            pathWidth={1.1}
-            pathOpacity={0.2}
-            repeat={shouldAnimate ? Infinity : 0}
-            gradientStartColor={shouldAnimate ? "#38bdf8" : "transparent"}
-            gradientStopColor={shouldAnimate ? "#fb7185" : "transparent"}
-          />
-        )
-      })}
+      {connections.map(({ fromRef, toRef, curvature }, index) => (
+        <AnimatedBeam
+          key={index}
+          className="opacity-90"
+          containerRef={containerRef}
+          fromRef={fromRef}
+          toRef={toRef}
+          curvature={curvature}
+          duration={3.6}
+          delay={index * 0.2}
+          pathWidth={1.3}
+          pathOpacity={0.25}
+          gradientStartColor="#38bdf8"
+          gradientStopColor="#fb7185"
+        />
+      ))}
     </div>
   )
 }
