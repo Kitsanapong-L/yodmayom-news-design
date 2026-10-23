@@ -9,6 +9,7 @@ import {
 import { MobileNavigation } from "@/components/mobile-navigation"
 import { ModeToggle } from "@/components/mode-toggle"
 import { NavigationEntrance } from "@/components/navigation-entrance"
+import { SmoothScroll } from "@/components/smooth-scroll"
 import { Separator } from "@/components/ui/separator"
 import { HouseIcon, InfoIcon, UsersIcon } from "lucide-react"
 import Image from "next/image"
@@ -16,6 +17,7 @@ import Link from "next/link"
 
 import type { Metadata } from "next"
 import "@workspace/ui/globals.css"
+import "lenis/dist/lenis.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@workspace/ui/lib/utils"
 
@@ -80,6 +82,7 @@ export default function RootLayout({
       )}
     >
       <body>
+        <SmoothScroll />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

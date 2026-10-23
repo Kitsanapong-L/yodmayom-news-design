@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react"
 import { motion } from "motion/react"
+import { ArrowRight } from "lucide-react"
+import Link from "next/link"
 
 import BlurText from "@/components/BlurText"
 import TextType from "@/components/TextType"
+import { Button } from "@/components/ui/button"
 
 export default function HomeHero() {
   const [welcomeBlurComplete, setWelcomeBlurComplete] = useState(false)
@@ -165,10 +168,57 @@ export default function HomeHero() {
                   className="text-sm font-normal tracking-normal sm:text-base"
                 />
               )}
+
+              <motion.div
+                initial={false}
+                animate={
+                  showTextType ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }
+                }
+                transition={{
+                  duration: 0.5,
+                  delay: showTextType ? 0.15 : 0,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                aria-hidden={!showTextType}
+                className={showTextType ? "pt-4" : "pointer-events-none pt-4"}
+              >
+                <div className="flex flex-wrap items-center gap-2 tracking-normal">
+                  <Button
+                    nativeButton={false}
+                    size="lg"
+                    className="rounded-full px-4 sm:px-5"
+                    render={
+                      <Link
+                        href="#home-content"
+                        tabIndex={showTextType ? undefined : -1}
+                      />
+                    }
+                  >
+                    Explore Our Work
+                    <ArrowRight className="transition-transform group-hover/button:translate-x-0.5" />
+                  </Button>
+
+                  <Button
+                    nativeButton={false}
+                    variant="outline"
+                    size="lg"
+                    className="rounded-full px-4 sm:px-5"
+                    render={
+                      <Link
+                        href="/about"
+                        tabIndex={showTextType ? undefined : -1}
+                      />
+                    }
+                  >
+                    About Us
+                  </Button>
+                </div>
+              </motion.div>
             </>
           )}
         </motion.div>
       </div>
+
     </section>
   )
 }
